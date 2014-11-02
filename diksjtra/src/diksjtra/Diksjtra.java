@@ -6,6 +6,7 @@
 
 package diksjtra;
 
+import diksjtra.source.Chaine;
 import diksjtra.source.Edge;
 import diksjtra.source.Node;
 import java.util.ArrayList;
@@ -21,20 +22,26 @@ public class Diksjtra {
 
     public static void calculchemin(Node source)
     {
-        source.minDistance = 0.;
-        PriorityQueue<Node> vertexQueue = new PriorityQueue<Node>();
+        source.minDistance = 0.0;
+        Chaine vertexQueue = new Chaine();
       	vertexQueue.add(source);
 
 	while (!vertexQueue.isEmpty()) {
 	    Node u = vertexQueue.poll();
-
-            // Visit each edge exiting u
+            System.out.println("push  "+ u);
+            // Visit each edge Node u u
             for (Edge e : u.adjacencies)
             {
                 Node v = e.target;
+                
+                System.out.println("node v  "+ v);
                 double weight = e.weight;
                 double distanceThroughU = u.minDistance + weight;
+                
+                System.out.println(distanceThroughU +"  "+ v.minDistance);
+                
 		if (distanceThroughU < v.minDistance) {
+                    System.out.println("trouver "+ v);
 		    vertexQueue.remove(v);
 		    v.minDistance = distanceThroughU ;
 		    v.previous = u;
@@ -47,13 +54,13 @@ public class Diksjtra {
     public static List<Node> plusCourtChemin(Node target)
     {
         List<Node> path = new ArrayList<Node>();
-        for (Node vertex = target; vertex != null; vertex = vertex.previous)
-            path.add(vertex);
+        for (Node point = target; point != null; point = point.previous)
+            path.add(point);
         Collections.reverse(path);
         return path;
     }
-
-    /*public static void main(String[] args)
+    /*
+    public static void main(String[] args)
     {
         Node v0 = new Node("Paris");
 	Node v1 = new Node("Lyon");
